@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les 5 Hooks Hormozi — Florian</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F5F1EA;
+  --ink: #0F0F0E;
+  --off: #E6E1D8;
+  --lime: #E02B14;
+  --muted: #7C7870;
+  --warm: #EAE5DC;
+}
+
+html {
+  background: #0F0F0E;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Barlow', sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 18px;
+}
+
+/* ─── COVER ─── */
+.cover {
+  background: var(--ink);
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 44px 52px;
+}
+
+.cover-top {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cover-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(245,241,234,.55);
+}
+
+.cover-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 8px;
+}
+
+.cover-h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(72px, 16vw, 120px);
+  font-weight: 800;
+  line-height: .88;
+  color: var(--bg);
+  letter-spacing: -.01em;
+  margin-bottom: 24px;
+}
+
+.cover-h1 .lime { color: var(--lime); }
+
+.cover-sub {
+  font-family: 'Barlow', sans-serif;
+  font-size: 17px;
+  color: rgba(245,241,234,.65);
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+.cover-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 32px;
+  border-top: 1px solid rgba(245,241,234,.07);
+  margin-top: 40px;
+}
+
+.cover-author {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(245,241,234,.85);
+  letter-spacing: .04em;
+}
+
+.cover-role {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  color: rgba(245,241,234,.6);
+  margin-top: 3px;
+  letter-spacing: .03em;
+}
+
+.cover-stat {
+  text-align: right;
+}
+
+.cover-stat-n {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--lime);
+  letter-spacing: .08em;
+}
+
+.cover-stat-l {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 9px;
+  color: rgba(245,241,234,.2);
+  letter-spacing: .06em;
+  margin-top: 1px;
+}
+
+/* ─── STATS BAR ─── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: var(--ink);
+}
+
+.stat {
+  padding: 28px 24px;
+  border-right: 1px solid rgba(245,241,234,.06);
+  text-align: center;
+}
+.stat:last-child { border-right: none; }
+
+.stat-n {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 52px;
+  font-weight: 800;
+  color: var(--lime);
+  line-height: 1;
+  letter-spacing: -.02em;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.stat-l {
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  color: rgba(245,241,234,.7);
+  line-height: 1.45;
+}
+
+/* ─── FORMULA ─── */
+.formula {
+  padding: 52px;
+  border-bottom: 1px solid var(--off);
+  background: var(--warm);
+}
+
+.section-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 18px;
+}
+
+.formula-eq {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(28px, 5vw, 38px);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -.01em;
+  margin-bottom: 32px;
+  line-height: 1.1;
+}
+
+.formula-eq .hi {
+  background: var(--ink);
+  color: var(--lime);
+  padding: 0 10px 3px;
+}
+
+.fgrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--off);
+}
+
+.fb {
+  background: var(--bg);
+  padding: 20px 18px;
+}
+
+.fb.active { background: var(--ink); }
+
+.fb-pct {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--lime);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.fb-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--bg);
+  margin-bottom: 4px;
+}
+
+.fb-desc {
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  color: rgba(245,241,234,.7);
+  line-height: 1.4;
+}
+
+.fb:not(.active) .fb-pct { color: rgba(15,15,14,.35); }
+.fb:not(.active) .fb-name { color: var(--ink); }
+.fb:not(.active) .fb-desc { color: #3A3835; }
+
+/* ─── HOOK ─── */
+.hook {
+  padding: 56px 52px;
+  border-bottom: 1px solid var(--off);
+  position: relative;
+}
+
+.hook:nth-child(even) { background: var(--warm); }
+
+.hook-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.hook-n {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #fff;
+  background: var(--lime);
+  padding: 6px 14px;
+  flex-shrink: 0;
+}
+
+.hook-type {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.hook-h {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(40px, 7vw, 58px);
+  font-weight: 800;
+  line-height: .96;
+  letter-spacing: -.01em;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+
+.hook-principle {
+  font-family: 'Barlow', sans-serif;
+  font-size: 19px;
+  color: #1E1D1B;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+
+/* EXAMPLES */
+.ex { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+
+.ex-bad {
+  padding: 20px 22px;
+  background: rgba(15,15,14,.03);
+  border-left: 2px solid rgba(15,15,14,.12);
+}
+
+.ex-good {
+  padding: 20px 22px;
+  background: rgba(224,43,20,.07);
+  border-left: 2px solid var(--lime);
+}
+
+.ex-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+
+.ex-good .ex-tag { color: #8B1A0A; }
+
+.ex-text {
+  font-family: 'Barlow', sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.ex-text.s { text-decoration: line-through; color: #3A3835; }
+
+/* FR VERSION */
+.fr-box {
+  padding: 20px 22px;
+  background: var(--ink);
+  margin-top: 6px;
+}
+
+.fr-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 9px;
+}
+
+.fr-text {
+  font-family: 'Barlow', sans-serif;
+  font-size: 18px;
+  color: rgba(245,241,234,.92);
+  line-height: 1.65;
+}
+
+.hook-rule {
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #1E1D1B;
+  line-height: 1.7;
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--off);
+}
+
+.hook-rule strong { color: var(--ink); font-weight: 600; }
+
+/* ─── CHECKLIST ─── */
+.checklist {
+  background: var(--ink);
+  padding: 56px 52px;
+}
+
+.cl-h {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(44px, 7vw, 60px);
+  font-weight: 800;
+  color: var(--bg);
+  line-height: .95;
+  letter-spacing: -.01em;
+  margin-bottom: 8px;
+}
+
+.cl-sub {
+  font-family: 'Barlow', sans-serif;
+  font-size: 16px;
+  color: rgba(245,241,234,.55);
+  margin-bottom: 36px;
+}
+
+.cl-list { list-style: none; }
+
+.cl-item {
+  display: flex;
+  gap: 18px;
+  padding: 17px 0;
+  border-bottom: 1px solid rgba(245,241,234,.06);
+  align-items: baseline;
+}
+.cl-item:last-child { border-bottom: none; }
+
+.cl-box {
+  width: 17px; height: 17px;
+  border: 1px solid rgba(224,43,20,.5);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cl-txt {
+  font-family: 'Barlow', sans-serif;
+  font-size: 19px;
+  color: rgba(245,241,234,.88);
+  line-height: 1.55;
+}
+
+.cl-txt strong {
+  color: var(--bg);
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-top">
+    <div class="cover-tag">Florian · Media Buyer</div>
+  </div>
+
+  <div class="cover-center">
+    <h1 class="cover-h1">
+      Les 5<br>
+      Hooks<br>
+      <span class="lime">Hormozi</span>
+    </h1>
+    <p class="cover-sub">Ce que les plus gros annonceurs US font dans leurs 3 premières secondes.</p>
+  </div>
+
+  <div class="cover-bottom">
+    <div>
+      <div class="cover-author">Florian</div>
+      <div class="cover-role">Media Buyer · Leadgen Infopreneurs & Coachs</div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-n">80%</span>
+    <span class="stat-l">de l'efficacité d'une pub vient du hook</span>
+  </div>
+  <div class="stat">
+    <span class="stat-n">3s</span>
+    <span class="stat-l">avant que le scroll reprenne</span>
+  </div>
+  <div class="stat">
+    <span class="stat-n">94%</span>
+    <span class="stat-l">des pubs de coachs ratent ces 3s</span>
+  </div>
+</div>
+
+<!-- FORMULA -->
+<div class="formula">
+  <div class="section-label">La formule</div>
+  <div class="formula-eq">
+    <span class="hi">Hook</span> + Story + Offer + CTA
+  </div>
+  <div class="fgrid">
+    <div class="fb active">
+      <div class="fb-pct">80%</div>
+      <div class="fb-name">Hook</div>
+      <div class="fb-desc">3s. Tout se joue ici.</div>
+    </div>
+    <div class="fb">
+      <div class="fb-pct">—</div>
+      <div class="fb-name">Story</div>
+      <div class="fb-desc">Preuve. Avant/Après.</div>
+    </div>
+    <div class="fb">
+      <div class="fb-pct">—</div>
+      <div class="fb-name">Offer</div>
+      <div class="fb-desc">Résultat + délai.</div>
+    </div>
+    <div class="fb">
+      <div class="fb-pct">—</div>
+      <div class="fb-name">CTA</div>
+      <div class="fb-desc">1 action, 1 mot.</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOOK 1 -->
+<div class="hook">
+  <div class="hook-meta">
+    <span class="hook-n">01</span>
+    <span class="hook-type">L'erreur invisible · Le + utilisé par Hormozi</span>
+  </div>
+  <h2 class="hook-h">L'Erreur Que Tu Fais<br>En Ce Moment</h2>
+  <p class="hook-principle">Tu pointes une faute précise que ton prospect fait sans le savoir. Son ego est en jeu. Il ne peut pas ignorer.</p>
+  <div class="ex">
+    <div class="ex-bad">
+      <div class="ex-tag">✕ Générique</div>
+      <p class="ex-text s">"Vous faites peut-être des erreurs dans vos publicités..."</p>
+    </div>
+    <div class="ex-good">
+      <div class="ex-tag">✓ Hormozi</div>
+      <p class="ex-text">"If you're doing this one thing in your ads, you're leaving 70% of your leads on the table — and you don't even know it."</p>
+    </div>
+    <div class="fr-box">
+      <div class="fr-tag">🇫🇷 Version FR</div>
+      <p class="fr-text">"Si ta pub commence par te présenter — ta méthode, ton parcours — tu perds 70% de tes prospects dans les 5 premières secondes. Et tu ne le vois pas dans tes stats."</p>
+    </div>
+  </div>
+  <p class="hook-rule"><strong>Règle :</strong> L'erreur doit être contre-intuitive. Quelque chose que beaucoup font en pensant bien faire. Le chiffre précis rend la perte concrète.</p>
+</div>
+
+<!-- HOOK 2 -->
+<div class="hook">
+  <div class="hook-meta">
+    <span class="hook-n">02</span>
+    <span class="hook-type">Résultat chiffré · Proof first</span>
+  </div>
+  <h2 class="hook-h">Le Résultat<br>Avant La Méthode</h2>
+  <p class="hook-principle">Le cerveau ne peut pas ignorer deux chiffres précis qui le concernent directement. Tu donnes le résultat en premier.</p>
+  <div class="ex">
+    <div class="ex-bad">
+      <div class="ex-tag">✕ Flou</div>
+      <p class="ex-text s">"On a amélioré les résultats de ce client en quelques semaines..."</p>
+    </div>
+    <div class="ex-good">
+      <div class="ex-tag">✓ Nick Shackelford</div>
+      <p class="ex-text">"We went from $78 cost per lead to $22 in 3 weeks. Here's the only thing we changed — and it took 20 minutes."</p>
+    </div>
+    <div class="fr-box">
+      <div class="fr-tag">🇫🇷 Version FR</div>
+      <p class="fr-text">"Mon client payait 78€ par lead. On est passé à 31€ en 3 semaines. Une seule chose a changé — les 5 premières secondes de sa pub."</p>
+    </div>
+  </div>
+  <p class="hook-rule"><strong>Règle :</strong> Les chiffres ronds semblent inventés. 78€ → 31€ semble mesuré. "20 minutes" tue l'objection de complexité avant qu'elle existe.</p>
+</div>
+
+<!-- HOOK 3 -->
+<div class="hook">
+  <div class="hook-meta">
+    <span class="hook-n">03</span>
+    <span class="hook-type">Contre-intuitif · Pattern interrupt</span>
+  </div>
+  <h2 class="hook-h">Contredis Ce<br>Qu'Ils Croient Vrai</h2>
+  <p class="hook-principle">La tension cognitive entre l'action annoncée et la croyance commune force le cerveau à rester pour résoudre le paradoxe.</p>
+  <div class="ex">
+    <div class="ex-bad">
+      <div class="ex-tag">✕ Attendu</div>
+      <p class="ex-text s">"Voici les meilleures pratiques pour cibler votre audience..."</p>
+    </div>
+    <div class="ex-good">
+      <div class="ex-tag">✓ Ben Heath 2025</div>
+      <p class="ex-text">"I deleted all my targeting. Broad only. My cost per lead dropped 60% in 10 days."</p>
+    </div>
+    <div class="fr-box">
+      <div class="fr-tag">🇫🇷 Version FR</div>
+      <p class="fr-text">"Arrête de cibler. Sérieusement. Meta fait ça mieux que toi — et tu perds de l'argent à vouloir contrôler."</p>
+    </div>
+  </div>
+  <p class="hook-rule"><strong>Formule :</strong> Action irrationnelle + résultat mesurable + promesse d'explication. Dans cet ordre.</p>
+</div>
+
+<!-- HOOK 4 -->
+<div class="hook">
+  <div class="hook-meta">
+    <span class="hook-n">04</span>
+    <span class="hook-type">Voix du client · Laurel Portié</span>
+  </div>
+  <h2 class="hook-h">Ses Mots.<br>Pas Les Tiens.</h2>
+  <p class="hook-principle">Tu copies mot pour mot ce que ton client dit pour décrire sa douleur. Il croit que tu le connais personnellement.</p>
+  <div class="ex">
+    <div class="ex-bad">
+      <div class="ex-tag">✕ Ta voix</div>
+      <p class="ex-text s">"Vous souhaitez développer votre activité de coaching ?"</p>
+    </div>
+    <div class="ex-good">
+      <div class="ex-tag">✓ Laurel Portié</div>
+      <p class="ex-text">"I was posting every single day. Showing up. Great testimonials. And I still couldn't fill my program."</p>
+    </div>
+    <div class="fr-box">
+      <div class="fr-tag">🇫🇷 Version FR</div>
+      <p class="fr-text">"Tu postes tous les jours. T'as une bonne offre. Des clients satisfaits. Et chaque mois la même angoisse en regardant ton compte."</p>
+    </div>
+  </div>
+  <p class="hook-rule"><strong>Source :</strong> DMs de tes prospects. Avis Amazon de livres dans ta niche. Commentaires chez tes concurrents. Copie les phrases exactes.</p>
+</div>
+
+<!-- HOOK 5 -->
+<div class="hook">
+  <div class="hook-meta">
+    <span class="hook-n">05</span>
+    <span class="hook-type">Transformation identitaire · Russell Brunson</span>
+  </div>
+  <h2 class="hook-h">Vends Qui<br>Ils Vont Devenir.</h2>
+  <p class="hook-principle">Les résultats s'oublient. L'identité reste. Tu promets un changement de qui ils sont, pas de ce qu'ils ont.</p>
+  <div class="ex">
+    <div class="ex-bad">
+      <div class="ex-tag">✕ Résultat</div>
+      <p class="ex-text s">"Générez 10 000€/mois avec votre coaching en 90 jours."</p>
+    </div>
+    <div class="ex-good">
+      <div class="ex-tag">✓ Russell Brunson</div>
+      <p class="ex-text">"In 90 days, you won't be chasing clients. You'll be choosing them. Saying no won't feel like losing money anymore."</p>
+    </div>
+    <div class="fr-box">
+      <div class="fr-tag">🇫🇷 Version FR</div>
+      <p class="fr-text">"Dans 90 jours tu ne chercheras plus des clients. Tu choisiras avec qui tu travailles — et tu diras non sans culpabilité."</p>
+    </div>
+  </div>
+  <p class="hook-rule"><strong>Règle :</strong> Remplace "avoir" par "être". Remplace "gagner" par "devenir". Fonctionne particulièrement bien sur les offres high-ticket.</p>
+</div>
+
+<!-- CHECKLIST -->
+<div class="checklist">
+  <h2 class="cl-h">Avant<br>de lancer.</h2>
+  <p class="cl-sub">Si tu réponds non à l'une d'elles, le hook n'est pas prêt.</p>
+  <ul class="cl-list">
+    <li class="cl-item"><div class="cl-box"></div><div class="cl-txt">Mon client se reconnaît dans la <strong>première phrase</strong> sans effort</div></li>
+    <li class="cl-item"><div class="cl-box"></div><div class="cl-txt"><strong>"Tu/toi"</strong> apparaît plus que "je/moi" dans les 10 premières secondes</div></li>
+    <li class="cl-item"><div class="cl-box"></div><div class="cl-txt">La douleur est assez <strong>précise</strong> pour ne pas être générique</div></li>
+    <li class="cl-item"><div class="cl-box"></div><div class="cl-txt">Sans me connaître, quelqu'un comprend <strong>ce que je propose</strong></div></li>
+    <li class="cl-item"><div class="cl-box"></div><div class="cl-txt">Il y a <strong>un seul message</strong> — pas trois</div></li>
+    <li class="cl-item"><div class="cl-box"></div><div class="cl-txt">Le CTA a un <strong>mot-clé unique</strong> à commenter</div></li>
+  </ul>
+</div>
+
+</body>
+</html>
